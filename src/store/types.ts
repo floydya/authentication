@@ -52,6 +52,10 @@ export interface ICreateActionsProps {
   me: string;
 }
 
-export type Result<R> = ThunkAction<R, IState, undefined, ActionType>;
+export interface IRootState {
+  authentication: IState;
+}
 
-export type Dispatch = ThunkDispatch<IState, undefined, ActionType>;
+export type Result<R> = ThunkAction<R, IRootState, undefined, ActionType>;
+
+export type Dispatch = ThunkDispatch<IRootState, undefined, ActionType>;

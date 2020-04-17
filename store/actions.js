@@ -41,8 +41,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __importDefault(require("axios"));
 var types_1 = require("./types");
-var react_cookie_1 = require("react-cookie");
-var cookies = new react_cookie_1.Cookies();
 exports.reduxActions = {
     setToken: function (payload) { return ({
         type: types_1.ActionTypes.SET_TOKEN,
@@ -71,12 +69,12 @@ var actions = {
             }
         });
     }); }; },
-    refresh: function (refreshURL) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+    refresh: function (refreshURL) { return function (dispatch, getState) { return __awaiter(void 0, void 0, void 0, function () {
         var refresh;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    refresh = cookies.get("refresh");
+                    refresh = getState().authentication.refresh;
                     return [4 /*yield*/, axios_1.default.post(refreshURL, { refresh: refresh }).then(function (_a) {
                             var access = _a.data.access;
                             return dispatch(exports.reduxActions.updateToken(access));
@@ -95,7 +93,7 @@ var actions = {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    token = cookies.get("access");
+                    token = getState().authentication.access;
                     return [4 /*yield*/, axios_1.default.post(verifyURL, { token: token }).then(function () { return null; }, function () {
                             return actions.refresh(refreshURL).bind(null, dispatch, getState)(undefined);
                         })];
@@ -103,12 +101,12 @@ var actions = {
             }
         });
     }); }; },
-    fetchUser: function (fetchUserURL) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+    fetchUser: function (fetchUserURL) { return function (dispatch, getState) { return __awaiter(void 0, void 0, void 0, function () {
         var access;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    access = cookies.get("access");
+                    access = getState().authentication.access;
                     return [4 /*yield*/, axios_1.default
                             .get(fetchUserURL, { headers: { Authorization: "JWT " + access } })
                             .then(function (_a) {

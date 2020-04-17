@@ -10,10 +10,10 @@ export declare const reduxActions: {
 export declare const createActions: ({ create, refresh, verify, me, }: ICreateActionsProps) => {
     login: (loginData: any) => import("redux-thunk").ThunkAction<Promise<{
         error?: any;
-    }>, import("./types").IState, undefined, ActionType>;
-    refresh: () => import("redux-thunk").ThunkAction<void, import("./types").IState, undefined, ActionType>;
-    verify: () => import("redux-thunk").ThunkAction<void, import("./types").IState, undefined, ActionType>;
-    fetchUser: () => import("redux-thunk").ThunkAction<void, import("./types").IState, undefined, ActionType>;
+    }>, import("./types").IRootState, undefined, ActionType>;
+    refresh: () => import("redux-thunk").ThunkAction<void, import("./types").IRootState, undefined, ActionType>;
+    verify: () => import("redux-thunk").ThunkAction<void, import("./types").IRootState, undefined, ActionType>;
+    fetchUser: () => import("redux-thunk").ThunkAction<void, import("./types").IRootState, undefined, ActionType>;
     logout: () => (dispatch: Dispatch<ActionType>) => void;
 };
 export default createActions;

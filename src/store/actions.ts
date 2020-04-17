@@ -12,8 +12,6 @@ import {
   ActionType,
 } from "./types";
 import { Dispatch } from "react";
-import { Cookies } from "react-cookie";
-const cookies = new Cookies();
 
 export const reduxActions = {
   setToken: (payload: IAPITokenResponse): ISetToken => ({
@@ -44,8 +42,8 @@ const actions = {
       (error) => error
     );
   },
-  refresh: (refreshURL: string): Result<void> => async (dispatch) => {
-    const refresh = cookies.get("refresh");
+  refresh: (refreshURL: string): Result<void> => async (dispatch, getState) => {
+    const refresh = getState().authentication.refresh;
     await axios.post(refreshURL, { refresh }).then(
       ({ data: { access } }) => dispatch(reduxActions.updateToken(access)),
       () => {
@@ -58,15 +56,15 @@ const actions = {
     dispatch,
     getState
   ) => {
-    const token = cookies.get("access");
+    const token = getState().authentication.access;
     return await axios.post(verifyURL, { token }).then(
       () => null,
       () =>
         actions.refresh(refreshURL).bind(null, dispatch, getState)(undefined)
     );
   },
-  fetchUser: (fetchUserURL: string): Result<void> => async (dispatch) => {
-    const access = cookies.get("access");
+  fetchUser: (fetchUserURL: string): Result<void> => async (dispatch, getState) => {
+    const access = getState().authentication.access;
     return await axios
       .get(fetchUserURL, { headers: { Authorization: `JWT ${access}` } })
       .then(
