@@ -1,0 +1,29 @@
+{
+  "name": "@floydya/authentication",
+  "version": "1.0.0",
+  "description": "Authentication services for Django(djoser) REST authentication",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "floydya",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^0.19.2",
+    "react": "^16.13.1",
+    "react-cookie": "^4.0.3",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "typescript": "^3.8.3"
+  },
+  "peerDependencies": {
+    "axios": "^0.19.2",
+    "react": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "react-cookie": "^4.0.3",
+    "redux-thunk": "^2.3.0"
+  }
+}
