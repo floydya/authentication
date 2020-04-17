@@ -109,20 +109,20 @@ var actions = {
             switch (_a.label) {
                 case 0:
                     access = getState().access;
-                    console.log(access);
                     return [4 /*yield*/, axios_1.default
                             .get(fetchUserURL, { headers: { Authorization: "JWT " + access } })
                             .then(function (_a) {
                             var data = _a.data;
                             return dispatch(exports.reduxActions.setUser(data));
-                        }, function (error) {
-                            console.log(error);
-                            return error;
-                        })];
+                        }, function (error) { return error; })];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });
     }); }; },
+    logout: function () { return function (dispatch) {
+        dispatch(exports.reduxActions.removeUser());
+        dispatch(exports.reduxActions.removeToken());
+    }; },
 };
 exports.createActions = function (_a) {
     var create = _a.create, refresh = _a.refresh, verify = _a.verify, me = _a.me;
@@ -131,6 +131,7 @@ exports.createActions = function (_a) {
         refresh: function () { return actions.refresh(refresh); },
         verify: function () { return actions.verify(verify, refresh); },
         fetchUser: function () { return actions.fetchUser(me); },
+        logout: function () { return actions.logout(); },
     });
 };
 exports.default = exports.createActions;

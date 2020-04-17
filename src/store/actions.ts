@@ -5,12 +5,13 @@ import {
   IAPITokenResponse,
   IRemoveToken,
   ISetUser,
-  UserType,
   IRemoveUser,
   ICreateActionsProps,
   IUpdateToken,
   Result,
+  ActionType,
 } from "./types";
+import { Dispatch } from "react";
 
 export const reduxActions = {
   setToken: (payload: IAPITokenResponse): ISetToken => ({
@@ -22,7 +23,7 @@ export const reduxActions = {
     payload,
   }),
   removeToken: (): IRemoveToken => ({ type: ActionTypes.REMOVE_TOKEN }),
-  setUser: (payload: UserType): ISetUser => ({
+  setUser: (payload: any): ISetUser => ({
     type: ActionTypes.SET_USER,
     payload,
   }),
@@ -68,16 +69,16 @@ const actions = {
     getState
   ) => {
     const { access } = getState();
-    console.log(access);
     return await axios
       .get(fetchUserURL, { headers: { Authorization: `JWT ${access}` } })
       .then(
         ({ data }) => dispatch(reduxActions.setUser(data)),
-        (error) => {
-          console.log(error);
-          return error;
-        }
+        (error) => error
       );
+  },
+  logout: () => (dispatch: Dispatch<ActionType>) => {
+    dispatch(reduxActions.removeUser());
+    dispatch(reduxActions.removeToken());
   },
 };
 
@@ -91,6 +92,7 @@ export const createActions = ({
   refresh: () => actions.refresh(refresh),
   verify: () => actions.verify(verify, refresh),
   fetchUser: () => actions.fetchUser(me),
+  logout: () => actions.logout(),
 });
 
 export default createActions;

@@ -1,17 +1,12 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-export type UserType = {
-  id: number;
-  email: string;
-};
-
 export interface IAPITokenResponse<T = string> {
   access: T;
   refresh: T;
 }
 
 export interface IState extends IAPITokenResponse<string | null> {
-  user: UserType | null;
+  user: any | null;
 }
 
 export enum ActionTypes {
@@ -36,7 +31,7 @@ export interface IRemoveToken {
 }
 export interface ISetUser {
   type: typeof ActionTypes.SET_USER;
-  payload: UserType;
+  payload: any;
 }
 export interface IRemoveUser {
   type: typeof ActionTypes.REMOVE_USER;
