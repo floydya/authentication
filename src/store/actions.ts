@@ -13,6 +13,8 @@ import {
 } from "./types";
 import { Dispatch } from "react";
 
+type TokenType = string | null | undefined;
+
 export const reduxActions = {
   setToken: (payload: IAPITokenResponse): ISetToken => ({
     type: ActionTypes.SET_TOKEN,
@@ -42,9 +44,13 @@ const actions = {
       (error) => error
     );
   },
-  refresh: (refreshURL: string): Result<void> => async (dispatch, getState) => {
-    const refresh = getState().authentication.refresh;
-    await axios.post(refreshURL, { refresh }).then(
+  refresh: (
+    refreshURL: string,
+    refreshToken: TokenType = undefined
+  ): Result<void> => async (dispatch, getState) => {
+    if (refreshToken === undefined)
+      refreshToken = getState().authentication.refresh;
+    await axios.post(refreshURL, { refresh: refreshToken }).then(
       ({ data: { access } }) => dispatch(reduxActions.updateToken(access)),
       () => {
         dispatch(reduxActions.removeUser());
@@ -52,21 +58,27 @@ const actions = {
       }
     );
   },
-  verify: (verifyURL: string, refreshURL: string): Result<void> => async (
-    dispatch,
-    getState
-  ) => {
-    const token = getState().authentication.access;
-    return await axios.post(verifyURL, { token }).then(
+  verify: (
+    verifyURL: string,
+    refreshURL: string,
+    accessToken: TokenType = undefined
+  ): Result<void> => async (dispatch, getState) => {
+    if (accessToken === undefined)
+      accessToken = getState().authentication.access;
+    return await axios.post(verifyURL, { token: accessToken }).then(
       () => null,
       () =>
         actions.refresh(refreshURL).bind(null, dispatch, getState)(undefined)
     );
   },
-  fetchUser: (fetchUserURL: string): Result<void> => async (dispatch, getState) => {
-    const access = getState().authentication.access;
+  fetchUser: (
+    fetchUserURL: string,
+    accessToken: TokenType = undefined
+  ): Result<void> => async (dispatch, getState) => {
+    if (accessToken === undefined)
+      accessToken = getState().authentication.access;
     return await axios
-      .get(fetchUserURL, { headers: { Authorization: `JWT ${access}` } })
+      .get(fetchUserURL, { headers: { Authorization: `JWT ${accessToken}` } })
       .then(
         ({ data }) => dispatch(reduxActions.setUser(data)),
         (error) => error
@@ -85,9 +97,12 @@ export const createActions = ({
   me,
 }: ICreateActionsProps) => ({
   login: (loginData: any) => actions.login(create, loginData),
-  refresh: () => actions.refresh(refresh),
-  verify: () => actions.verify(verify, refresh),
-  fetchUser: () => actions.fetchUser(me),
+  refresh: (refreshToken: TokenType = undefined) =>
+    actions.refresh(refresh, refreshToken),
+  verify: (accessToken: TokenType = undefined) =>
+    actions.verify(verify, refresh, accessToken),
+  fetchUser: (accessToken: TokenType = undefined) =>
+    actions.fetchUser(me, accessToken),
   logout: () => actions.logout(),
 });
 
