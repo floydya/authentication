@@ -46,10 +46,10 @@ export type ActionType =
   | IRemoveUser;
 
 export interface ICreateActionsProps {
-  create: string;
-  refresh: string;
-  verify: string;
-  me: string;
+  loginURL: string;
+  refreshURL: string;
+  verifyURL: string;
+  fetchUserURL: string;
 }
 
 export interface IRootState {
@@ -59,3 +59,4 @@ export interface IRootState {
 export type Result<R> = ThunkAction<R, IRootState, undefined, ActionType>;
 
 export type Dispatch = ThunkDispatch<IRootState, undefined, ActionType>;
+export type Token = string | null | undefined;

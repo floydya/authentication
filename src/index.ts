@@ -1,2 +1,6 @@
 export { default as authenticationReducer } from "./store/reducer";
-export { default as createActions } from "./store/actions";
+export {
+  default as createActions,
+  basicActions,
+  thunkActions,
+} from "./store/actions";

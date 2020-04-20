@@ -35,13 +35,14 @@ export interface IRemoveUser {
 }
 export declare type ActionType = ISetToken | IUpdateToken | IRemoveToken | ISetUser | IRemoveUser;
 export interface ICreateActionsProps {
-    create: string;
-    refresh: string;
-    verify: string;
-    me: string;
+    loginURL: string;
+    refreshURL: string;
+    verifyURL: string;
+    fetchUserURL: string;
 }
 export interface IRootState {
     authentication: IState;
 }
 export declare type Result<R> = ThunkAction<R, IRootState, undefined, ActionType>;
 export declare type Dispatch = ThunkDispatch<IRootState, undefined, ActionType>;
+export declare type Token = string | null | undefined;
