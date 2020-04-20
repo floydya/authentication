@@ -48,9 +48,7 @@ var login = function (loginURL, loginData) { return function (dispatch) { return
                     var data = _a.data;
                     return dispatch(basic_1.default.setToken(data));
                 })];
-            case 1:
-                _a.sent();
-                return [2 /*return*/];
+            case 1: return [2 /*return*/, _a.sent()];
         }
     });
 }); }; };
@@ -67,9 +65,7 @@ var verify = function (verifyURL, accessToken) {
                     if (!accessToken)
                         accessToken = getState().authentication.access;
                     return [4 /*yield*/, axios_1.default.post(verifyURL, { token: accessToken })];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     }); };
@@ -82,13 +78,13 @@ var refresh = function (refreshURL, refreshToken) {
                 case 0:
                     if (!refreshToken)
                         refreshToken = getState().authentication.refresh;
-                    return [4 /*yield*/, axios_1.default.post(refreshURL, { refresh: refreshToken }).then(function (_a) {
+                    return [4 /*yield*/, axios_1.default.post(refreshURL, {
+                            refresh: refreshToken,
+                        }).then(function (_a) {
                             var data = _a.data;
                             return dispatch(basic_1.default.updateToken(data.access));
                         })];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     }); };
@@ -101,13 +97,13 @@ var fetchUser = function (fetchUserURL, accessToken) {
                 case 0:
                     if (!accessToken)
                         accessToken = getState().authentication.access;
-                    return [4 /*yield*/, axios_1.default.get(fetchUserURL, { headers: { Authorization: "JWT " + accessToken } }).then(function (_a) {
+                    return [4 /*yield*/, axios_1.default.get(fetchUserURL, {
+                            headers: { Authorization: "JWT " + accessToken },
+                        }).then(function (_a) {
                             var data = _a.data;
                             return dispatch(basic_1.default.setUser(data));
                         })];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     }); };
