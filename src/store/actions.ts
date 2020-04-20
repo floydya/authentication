@@ -61,14 +61,24 @@ const actions = {
   verify: (
     verifyURL: string,
     refreshURL: string,
-    accessToken: TokenType = undefined
+    accessToken: TokenType = undefined,
+    refreshToken: TokenType = undefined
   ): Result<void> => async (dispatch, getState) => {
     if (accessToken === undefined)
       accessToken = getState().authentication.access;
     return await axios.post(verifyURL, { token: accessToken }).then(
       () => null,
-      () =>
-        actions.refresh(refreshURL).bind(null, dispatch, getState)(undefined)
+      () => {
+        if (refreshToken === undefined)
+          refreshToken = getState().authentication.refresh;
+        actions
+          .refresh(refreshURL, refreshToken)
+          .bind(
+            null,
+            dispatch,
+            getState
+          )(undefined);
+      }
     );
   },
   fetchUser: (
