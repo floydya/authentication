@@ -8,7 +8,7 @@ const login = (loginURL: string, loginData: any): Result<void> => async (dispatc
   )
 }
 
-const logout = () => (dispatch: Dispatch) => {
+const logout = (): Result<void> => (dispatch: Dispatch) => {
   dispatch(basicActions.removeUser())
   dispatch(basicActions.removeToken())
 }
