@@ -9,10 +9,10 @@ const login = (loginURL: string, loginData: any): Result<any> => async (
     dispatch(basicActions.setToken(data))
   );
 
-const logout = () => (dispatch: Dispatch) => {
-  dispatch(basicActions.removeUser());
-  dispatch(basicActions.removeToken());
-};
+const logout = (): Result<void> => (dispatch: Dispatch) => {
+  dispatch(basicActions.removeUser())
+  dispatch(basicActions.removeToken())
+}
 
 const verify = (
   verifyURL: string,
